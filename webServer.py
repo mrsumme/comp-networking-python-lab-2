@@ -27,7 +27,9 @@ def webServer(port=13331):
       
       #opens the client requested file. 
       #Plenty of guidance online on how to open and read a file in python. How should you read it though if you plan on sending it through a socket?
-      f = open(filename[1:], #fill in start #fill in end)
+      f = open(filename[1:], mode='rb')#fill in start #fill in end)
+      filedata = f.read()
+      f.close()
       #fill in end
       
 
@@ -35,22 +37,22 @@ def webServer(port=13331):
       #Fill in start 
               
       #Content-Type is an example on how to send a header as bytes. There are more!
-      outputdata = b"Content-Type: text/html; charset=UTF-8\r\n"
+      outputdata = b"HTTP/1.0 200 OK; Server: PythonLab2; Content-Type: text/html; charset=UTF-8\r\n\r\n"
 
 
       #Note that a complete header must end with a blank line, creating the four-byte sequence "\r\n\r\n" Refer to https://w3.cs.jmu.edu/kirkpams/OpenCSF/Books/csf/html/TCPSockets.html
  
       #Fill in end
                
-      for i in f: #for line in file
+      # for i in f: #for line in file
       #Fill in start - append your html file contents #Fill in end 
+      outputdata += filedata
         
       #Send the content of the requested file to the client (don't forget the headers you created)!
       #Send everything as one send command, do not send one line/item at a time!
 
       # Fill in start
-
-
+      connectionSocket.sendall(outputdata)
       # Fill in end
         
       connectionSocket.close() #closing the connection socket
@@ -59,13 +61,14 @@ def webServer(port=13331):
       # Send response message for invalid request due to the file not being found (404)
       # Remember the format you used in the try: block!
       #Fill in start
-
+      outputdata = b"HTTP/1.0 404 Not Found"
+      connectionSocket.sendall(outputdata)
       #Fill in end
 
 
       #Close client socket
       #Fill in start
-
+      connectionSocket.close()
       #Fill in end
 
   # Commenting out the below (some use it for local testing). It is not required for Gradescope, and some students have moved it erroneously in the While loop. 
