@@ -61,7 +61,7 @@ def webServer(port=13331):
       # Send response message for invalid request due to the file not being found (404)
       # Remember the format you used in the try: block!
       #Fill in start
-      outputdata = b"HTTP/1.0 404 Not Found"
+      outputdata = b"HTTP/1.0 404 Not Found; Server: PythonLab2; Content-Type: text/html; Connection: close"
       connectionSocket.sendall(outputdata)
       #Fill in end
 
